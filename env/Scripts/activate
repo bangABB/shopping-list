@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\PBPGut\shopping_list\env"
+VIRTUAL_ENV="D:\shopping_list\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
