@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PBP</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    {% if items %}
+    {% for item in items %}
+        <p>{{item.harga_barang}}</p>
+    {% endfor %}
+    {% endif %}
+    </body>
+</html>

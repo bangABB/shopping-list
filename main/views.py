@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from main.forms import ProductForm
@@ -17,9 +18,33 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_product = Product.objects.create(
+            user = request.user,
+            name = data["name"],
+            price = int(data["price"]),
+            description = data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+def show_barang_by_id(request,id):
+    items = Product.objects.filter(pk=id)
+    response = {'items': items}
+    return render(request, 'index.html', response)
 
 def create_product(request):
     form = ProductForm(request.POST or None)
@@ -75,7 +100,7 @@ def edit_product(request, id):
         return HttpResponseRedirect(reverse('main:show_main'))
 
     context = {'form': form}
-    return render(request, "edit_product.html", context)
+    return render(request, "edit_product.html", context) 
 
 def delete_product(request, id):
     # Get data berdasarkan ID
